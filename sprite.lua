@@ -1,0 +1,102 @@
+--sprite class
+Sprite = {
+    r = 0,
+    flipped = false
+}
+local sprite_mt = class(Sprite)
+
+function Sprite:new(x, y, image)
+    local o = {
+        x = x, y = y,
+        image = images[image]
+    }
+
+    return setmetatable(o, sprite_mt)
+end
+
+function Sprite:add(x, y, image)
+    table.insert(p, Sprite:new(x, y, image))
+end
+
+function Sprite:update(dt)
+end
+
+function Sprite:draw()
+    love.graphics.draw(
+        self.image, self.x * windowscale, self.y * windowscale, self.r,
+        (self.flipped and -1 or (not self.flipped and 1)) * windowscale, windowscale
+    )
+end
+
+--animatedsprite class
+AnimatedSprite = inherits(Sprite, {
+    frame = 1,
+    framedelta = 0,
+    framerate = 12
+})
+local animatedsprite_mt = class(AnimatedSprite)
+
+--the skins param should be a sequence of strings referring to animation objects, or a single string
+function AnimatedSprite:new(x, y, skins)
+    local o = {
+        x = x, y = y,
+        skins = {}
+    }
+    
+    if type(skins) == "string" then
+        o.skins = { animations[skins] }
+    elseif type(skins) == "table" then
+        for i,_ in ipairs(skins) do
+            o.skins[i] = animations[skins[i]]
+        end
+    else
+        error("skins parameter is not a string or table of strings")
+    end
+
+    o.anim = o.skins[1]
+
+    return setmetatable(o, animatedsprite_mt)
+end
+
+function AnimatedSprite:add(x, y, skins)
+    table.insert(p, AnimatedSprite:new(x, y, skins))
+end
+
+function AnimatedSprite:update(dt)
+    self:animate(dt)
+end
+
+function AnimatedSprite:animate(dt)
+    self.framedelta = self.framedelta + dt
+    if self.framedelta > 1 / self.framerate then
+        self.framedelta = self.framedelta - 1 / self.framerate
+        self:advanceframe()
+    end
+end
+
+function AnimatedSprite:advanceframe()
+    self.frame = self.frame + 1
+    if self.frame > self.anim.frames then
+        self.frame = 1
+    end
+end
+
+function AnimatedSprite:resetanimation()
+    self.frame = 1
+    self.framedelta = 0
+end
+
+function AnimatedSprite:swapanimation(anim)
+    if self.anim ~= anim then
+        self:resetanimation()
+        self.anim = anim
+    end
+end
+
+function AnimatedSprite:draw()
+    love.graphics.draw(
+        self.anim.image, self.anim.quads[self.frame],
+        self.x * windowscale, self.y * windowscale, self.r,
+        (self.flipped and -1 or (not self.flipped and 1)) * windowscale, windowscale
+    )
+end
