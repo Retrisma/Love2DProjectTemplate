@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="3">
+ <editorsettings>
+  <export target="Exports/sample.lua" format="lua"/>
+ </editorsettings>
  <tileset firstgid="1" source="../Tilesets/Template/template.tsx"/>
  <tileset firstgid="122" source="../Tilesets/Template/Template.tsx"/>
  <layer id="1" name="Template" width="30" height="20">
@@ -26,4 +29,8 @@
 0,0,0,0,0,0,0,0,0,0,114,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="1" name="friend" x="104.667" y="44.6667"/>
+  <object id="2" name="animation" x="47.3333" y="206"/>
+ </objectgroup>
 </map>

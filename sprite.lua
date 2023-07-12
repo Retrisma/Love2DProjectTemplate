@@ -5,11 +5,17 @@ Sprite = {
 }
 local sprite_mt = class(Sprite)
 
-function Sprite:new(x, y, image)
+function Sprite:init(x, y, image)
     local o = {
         x = x, y = y,
         image = images[image]
     }
+
+    return o
+end
+
+function Sprite:new(x, y, image)
+    local o = Sprite:init(x, y, image)
 
     return setmetatable(o, sprite_mt)
 end
@@ -37,7 +43,7 @@ AnimatedSprite = inherits(Sprite, {
 local animatedsprite_mt = class(AnimatedSprite)
 
 --the skins param should be a sequence of strings referring to animation objects, or a single string
-function AnimatedSprite:new(x, y, skins)
+function AnimatedSprite:init(x, y, skins)
     local o = {
         x = x, y = y,
         skins = {}
@@ -54,6 +60,12 @@ function AnimatedSprite:new(x, y, skins)
     end
 
     o.anim = o.skins[1]
+
+    return o
+end
+
+function AnimatedSprite:new(x, y, skins)
+    local o = AnimatedSprite:init(x, y, skins)
 
     return setmetatable(o, animatedsprite_mt)
 end
