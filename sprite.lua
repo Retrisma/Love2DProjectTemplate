@@ -29,8 +29,8 @@ end
 
 function Sprite:draw()
     love.graphics.draw(
-        self.image, self.x * windowscale, self.y * windowscale, self.r,
-        (self.flipped and -1 or (not self.flipped and 1)) * windowscale, windowscale
+        self.image, self.x * window.scale, self.y * window.scale, self.r,
+        (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
     )
 end
 
@@ -108,7 +108,11 @@ end
 function AnimatedSprite:draw()
     love.graphics.draw(
         self.anim.image, self.anim.quads[self.frame],
-        self.x * windowscale, self.y * windowscale, self.r,
-        (self.flipped and -1 or (not self.flipped and 1)) * windowscale, windowscale
+        self.x * window.scale, self.y * window.scale, self.r,
+        (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
     )
+
+    if self.bounds ~= nil and showdebug then
+        self.bounds:draw()
+    end
 end
