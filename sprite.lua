@@ -10,6 +10,8 @@ function Sprite:init(x, y, image)
         x = x, y = y,
         image = images[image]
     }
+    o.w = o.image:getWidth()
+    o.h = o.image:getHeight()
 
     return o
 end
@@ -60,6 +62,8 @@ function AnimatedSprite:init(x, y, skins)
     end
 
     o.anim = o.skins[1]
+    o.w = o.anim.image:getWidth() / o.anim.frames
+    o.h = o.anim.image:getHeight()
 
     return o
 end
@@ -105,12 +109,16 @@ function AnimatedSprite:swapanimation(anim)
     end
 end
 
-function AnimatedSprite:draw()
+function AnimatedSprite:drawselfanim()
     love.graphics.draw(
         self.anim.image, self.anim.quads[self.frame],
         self.x * window.scale, self.y * window.scale, self.r,
         (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
     )
+end
+
+function AnimatedSprite:draw()
+    self:drawselfanim()
 
     if self.bounds ~= nil and showdebug then
         self.bounds:draw()

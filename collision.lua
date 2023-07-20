@@ -1,4 +1,6 @@
-Rectangle = {}
+Rectangle = {
+    xoff = 0, yoff = 0
+}
 local rectangle_mt = class(Rectangle)
 
 function Rectangle:new(x, y, w, h)

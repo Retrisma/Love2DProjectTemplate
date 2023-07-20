@@ -45,4 +45,5 @@ end
 function loadassets()
     images = loadfolder("Graphics/Sprites", "image")
     animations = loadfolder("Graphics/Animations", "anim")
+    fonts = loadfolder("Graphics/Fonts", "font")
 end

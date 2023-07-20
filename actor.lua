@@ -1,6 +1,7 @@
 Actor = inherits(AnimatedSprite, {
     dx = 0, dy = 0,
-    xr = 0, yr = 0
+    xr = 0, yr = 0,
+    body = {}
 })
 
 local actor_mt = class(Actor)
@@ -8,11 +9,23 @@ local actor_mt = class(Actor)
 function Actor:new(x, y, skins)
     local o = AnimatedSprite:init(x, y, skins)
 
-    return setmetatable(o, actor_mt)
+    local s = setmetatable(o, actor_mt)
+
+    s:adddefaultbox()
+
+    return s
 end
 
 function Actor:add(x, y, skins)
     table.insert(p, Actor:new(x, y, skins))
+end
+
+function Actor:addbox(w, h, xoff, yoff)
+    table.insert(self.body, Rectangle:new(self.x + (xoff or 0), self.y + (yoff or 0), w, h, xoff or 0, yoff or 0))
+end
+
+function Actor:adddefaultbox()
+    self:addbox(self.w, self.h)
 end
 
 function Actor:movex(vel)
@@ -25,6 +38,7 @@ function Actor:movex(vel)
         while move ~= 0 do
             self.x = self.x + move
             move = move - sign
+            self:updatebody()
         end
     end
 end
@@ -39,11 +53,31 @@ function Actor:movey(vel)
         while move ~= 0 do
             self.y = self.y + move
             move = move - sign
+            self:updatebody()
         end
+    end
+end
+
+function Actor:updatebody()
+    for _,box in pairs(self.body) do
+        box.x = self.x + box.xoff
+        box.y = self.y + box.yoff
     end
 end
 
 function Actor:update(dt)
     self:animate(dt)
-    self:movex(100 * dt)
+end
+
+function Actor:draw()
+    self:drawselfanim()
+    if love.keyboard.isDown("right") then
+        self:movex(1)
+    end
+
+    if showdebug then
+        for _,box in pairs(self.body) do
+            box:draw()
+        end
+    end
 end
