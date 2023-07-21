@@ -12,6 +12,8 @@ function gettile(layer, x, y, custommap)
     custommap = custommap or map
     local l = custommap.layers[layer]
 
+    if y <= 0 or x <= 0 or y > custommap.height or x > custommap.width then return nil end
+
     return l.data[y][x]
 end
 
@@ -28,10 +30,15 @@ function loadmap(map)
             local tile = gettile("Template", x, y, map)
             if tile then
                 if tile.gid ~= 0 then
-                    mapspr:addbox(
-                            tile.width, tile.height,
-                            (x - 1) * tile.width, (y - 1) * tile.height
-                        )
+                    if not (gettile("Template", x - 1, y, map) ~= nil 
+                        and gettile("Template", x + 1, y, map) ~= nil
+                        and gettile("Template", x, y - 1, map) ~= nil 
+                        and gettile("Template", x, y + 1, map) ~= nil) then
+                        mapspr:addbox(
+                                tile.width, tile.height,
+                                (x - 1) * tile.width, (y - 1) * tile.height
+                            )
+                    end
                 end
             end
         end

@@ -31,6 +31,8 @@ function love.load()
     
     map = loadmap("sample")
 
+    debug = gettile("Template", -1, -1)
+
     Button:add(180, 40, "button", function() showdebug = not showdebug end)
 end
 
