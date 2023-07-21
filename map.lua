@@ -1,11 +1,42 @@
 spawntable = {
     friend = function(x, y) Sprite:add(x, y, "friend") end,
-    animation = function(x, y) Actor:add(x, y, "animation") end
+    animation = function(x, y) 
+        Actor:add(
+            x, y, "animation", 
+            { default = true, type = "dynamic" }
+        )
+    end
 }
+
+function gettile(layer, x, y, custommap)
+    custommap = custommap or map
+    local l = custommap.layers[layer]
+
+    return l.data[y][x]
+end
 
 function loadmap(map)
     local path = "Tiled/Maps/Exports/" .. map .. ".lua"
     local map = sti(path)
+
+    local mapspr = Actor:new(0, 0, "animation")
+    mapspr.body = {}
+    mapspr.visible = false
+
+    for x = 1, map.width do
+        for y = 1, map.height do
+            local tile = gettile("Template", x, y, map)
+            if tile then
+                if tile.gid ~= 0 then
+                    mapspr:addbox(
+                            tile.width, tile.height,
+                            (x - 1) * tile.width, (y - 1) * tile.height
+                        )
+                end
+            end
+        end
+    end
+    table.insert(p, mapspr)
 
     spawn(map)
 
@@ -14,6 +45,6 @@ end
 
 function spawn(map)
     for k,v in pairs(map.objects) do
-        spawntable[v.name](v.x, v.y)
+        spawntable[v.name](math.floor(v.x), math.floor(v.y))
     end
 end

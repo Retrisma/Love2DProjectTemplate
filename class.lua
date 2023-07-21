@@ -2,8 +2,8 @@
 function class(members)
     members = members or {}
     local mt = {
-        __metatable = members;
-        __index = members;
+        __metatable = members,
+        __index = members
     }
 
     local function new(_, init)

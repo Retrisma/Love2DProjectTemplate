@@ -42,13 +42,16 @@ function love.update(dt)
 
     if gamestate.state == gamestate.main then
 
-        if love.keyboard.isDown("up") then window.scale = window.scale + rate end
-        if love.keyboard.isDown("down") then window.scale = window.scale - rate end
+        if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
+        if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
-        if love.keyboard.isDown("w") then camera.y = camera.y - rate * 100 end
-        if love.keyboard.isDown("a") then camera.x = camera.x - rate * 100 end
-        if love.keyboard.isDown("s") then camera.y = camera.y + rate * 100 end
-        if love.keyboard.isDown("d") then camera.x = camera.x + rate * 100 end
+        if love.keyboard.isDown("s") then camera.y = camera.y - rate * 100 end
+        if love.keyboard.isDown("d") then camera.x = camera.x - rate * 100 end
+        if love.keyboard.isDown("w") then camera.y = camera.y + rate * 100 end
+        if love.keyboard.isDown("a") then camera.x = camera.x + rate * 100 end
+
+        --camera.x = math.floor(camera.x)
+        --camera.y = math.floor(camera.y)
         
         for _,v in pairs(p) do
             v:update(rate)

@@ -1,9 +1,16 @@
 --sprite class
 Sprite = {
     r = 0,
-    flipped = false
+    flipped = false,
+    visible = true
 }
 local sprite_mt = class(Sprite)
+
+function Sprite:new(x, y, image)
+    local o = Sprite:init(x, y, image)
+
+    return setmetatable(o, sprite_mt)
+end
 
 function Sprite:init(x, y, image)
     local o = {
@@ -16,12 +23,6 @@ function Sprite:init(x, y, image)
     return o
 end
 
-function Sprite:new(x, y, image)
-    local o = Sprite:init(x, y, image)
-
-    return setmetatable(o, sprite_mt)
-end
-
 function Sprite:add(x, y, image)
     table.insert(p, Sprite:new(x, y, image))
 end
@@ -30,10 +31,12 @@ function Sprite:update(dt)
 end
 
 function Sprite:draw()
-    love.graphics.draw(
-        self.image, self.x * window.scale, self.y * window.scale, self.r,
-        (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
-    )
+    if self.visible then
+        love.graphics.draw(
+            self.image, self.x * window.scale, self.y * window.scale, self.r,
+            (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
+        )
+    end
 end
 
 --animatedsprite class
@@ -110,11 +113,13 @@ function AnimatedSprite:swapanimation(anim)
 end
 
 function AnimatedSprite:drawselfanim()
-    love.graphics.draw(
-        self.anim.image, self.anim.quads[self.frame],
-        self.x * window.scale, self.y * window.scale, self.r,
-        (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
-    )
+    if self.visible then
+        love.graphics.draw(
+            self.anim.image, self.anim.quads[self.frame],
+            self.x * window.scale, self.y * window.scale, self.r,
+            (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
+        )
+    end
 end
 
 function AnimatedSprite:draw()
