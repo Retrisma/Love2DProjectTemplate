@@ -1,3 +1,4 @@
+--button class
 Button = inherits(AnimatedSprite, {
     state = 1
 })

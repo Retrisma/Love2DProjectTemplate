@@ -8,7 +8,8 @@ require "sprite"
 require "ui"
 require "actor"
 require "tools"
-sti = require("sti")
+sti = require "sti"
+moonshine = require "moonshine"
 
 showdebug = true
 debug = 0
@@ -31,9 +32,11 @@ function love.load()
     
     map = loadmap("sample")
 
-    debug = gettile("Template", -1, -1)
-
     Button:add(180, 40, "button", function() showdebug = not showdebug end)
+
+    effect = moonshine(moonshine.effects.filmgrain)
+                    .chain(moonshine.effects.vignette)
+    effect.filmgrain.size = 2
 end
 
 function love.update(dt)
@@ -68,7 +71,9 @@ function love.draw()
     --set drawing offset to camera position
     love.graphics.translate(camera.x * window.scale, camera.y * window.scale)
     --draw tiled map
-    map:draw(camera.x, camera.y, window.scale)
+    effect(function()
+        map:draw(camera.x, camera.y, window.scale)
+    end)
     
     for _,v in pairs(p) do
         v:draw()
