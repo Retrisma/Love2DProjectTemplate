@@ -28,12 +28,16 @@ function Rectangle:collideswith(rect, offset)
         and math.abs((self.y+offset.y+(self.h/2))-(rect.y+(rect.h/2)))<self.h/2+rect.h/2
 end
 
-function Rectangle:draw()
-    love.graphics.setColor(0, 0, 1)
-        local sr = self:translate()
-        love.graphics.rectangle(
-            "line", sr.x, sr.y, 
-            sr.w, sr.h
-        )
+function Rectangle:draw(color)
+    local mode = "line"
+    if self:containspoint(mouse.x, mouse.y) then mode = "fill" end
+
+    color = color or { r = 1, g = 1, b = 1 }
+    love.graphics.setColor(color.r, color.g, color.b)
+    local sr = self:translate()
+    love.graphics.rectangle(
+        mode, sr.x, sr.y, 
+        sr.w, sr.h
+    )
     love.graphics.setColor(1, 1, 1)
 end

@@ -26,7 +26,9 @@ function Actor:add(x, y, skins, args)
 end
 
 function Actor:addbox(w, h, xoff, yoff)
-    table.insert(self.body, Rectangle:new(self.x + (xoff or 0), self.y + (yoff or 0), w, h, xoff or 0, yoff or 0))
+    xoff = xoff or 0
+    yoff = yoff or 0
+    table.insert(self.body, Rectangle:new(self.x + xoff, self.y + yoff, w, h, xoff, yoff))
 end
 
 function Actor:adddefaultbox()
@@ -112,7 +114,6 @@ end
 
 function Actor:update(dt)
     if self.type == "dynamic" then
-        debug = self.dx
         if love.keyboard.isDown("right") then self.dx = self.dx + dt * 100 end
         if love.keyboard.isDown("left") then self.dx = self.dx - dt * 100 end
         if love.keyboard.isDown("up") and self:collides({ x = 0, y = 0.01 }) then self.dy = -20 end
@@ -127,7 +128,10 @@ function Actor:draw()
 
     if showdebug then
         for _,box in pairs(self.body) do
-            box:draw()
+            local color = { r = 0, g = 0, b = 0 }
+            if self.type == "static" then color.b = 1
+            elseif self.type == "dynamic" then color.r = 1 end
+            box:draw(color)
         end
     end
 end

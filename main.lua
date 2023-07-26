@@ -12,11 +12,11 @@ sti = require "sti"
 moonshine = require "moonshine"
 
 showdebug = true
-debug = 0
+debug = ""
 
-window = { w = 800, h = 600, scale = 1.65 }
+window = { w = 1050, h = 600, scale = 1.65 }
 
-camera = { x = 0, y = 0 }
+camera = { x = 0, y = 0, rx = 0, ry = 0 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -30,13 +30,12 @@ function love.load()
 
     loadassets()
     
+    font = love.graphics.setFont(fonts["CommonCase"])
     map = loadmap("sample")
 
-    Button:add(180, 40, "button", function() showdebug = not showdebug end)
-
-    effect = moonshine(moonshine.effects.filmgrain)
-                    .chain(moonshine.effects.vignette)
-    effect.filmgrain.size = 2
+    Button:add(500, 40, "button", function() showdebug = not showdebug end)
+    Textbox:add(850, 20, "debug button", { scroll = false })
+    Textbox:add(50, 550, "i am a scrolling text box of text.", { scroll = true })
 end
 
 function love.update(dt)
@@ -46,7 +45,6 @@ function love.update(dt)
     updatemouse()
 
     if gamestate.state == gamestate.main then
-
         if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
         if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
@@ -55,25 +53,24 @@ function love.update(dt)
         if love.keyboard.isDown("w") then camera.y = camera.y + rate * 100 end
         if love.keyboard.isDown("a") then camera.x = camera.x + rate * 100 end
 
-        --camera.x = math.floor(camera.x)
-        --camera.y = math.floor(camera.y)
-        
         for _,v in pairs(p) do
             v:update(rate)
         end
 
+        camera.rx = math.floor(camera.x)
+        camera.ry = math.floor(camera.y)
     end
 
     mouse.op = mouse.p
 end
 
 function love.draw()
+    map:draw(camera.rx, camera.ry, window.scale)
+
+    love.graphics.push()
     --set drawing offset to camera position
-    love.graphics.translate(camera.x * window.scale, camera.y * window.scale)
+    love.graphics.translate(camera.rx * window.scale, camera.ry * window.scale)
     --draw tiled map
-    effect(function()
-        map:draw(camera.x, camera.y, window.scale)
-    end)
     
     for _,v in pairs(p) do
         v:draw()
@@ -82,7 +79,8 @@ function love.draw()
     --draw mouse cursor
     love.graphics.circle("fill", mouse.x, mouse.y, 3)
 
+    love.graphics.pop()
     if showdebug then
-        love.graphics.print(tostring(debug))
+        love.graphics.print(tostring(debug or 0))
     end
 end

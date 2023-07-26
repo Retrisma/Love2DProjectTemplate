@@ -41,3 +41,38 @@ end
 function Button:animate(dt)
     self.frame = self.state
 end
+
+Textbox = { bank = "" }
+local textbox_mt = class(Textbox)
+
+function Textbox:init(x, y, text, opts)
+    opts = opts or {}
+    local o = {
+        x = x, y = y,
+        text = "",
+        scroll = opts.scroll or false
+    }
+
+    if o.scroll then o.bank = text else o.text = text end
+
+    return o
+end
+
+function Textbox:new(x, y, text, opts)
+    return setmetatable(Textbox:init(x, y, text, opts), textbox_mt)
+end
+
+function Textbox:add(x, y, text, opts)
+    table.insert(p, Textbox:new(x, y, text, opts))
+end
+
+function Textbox:update(dt)
+    if self.bank ~= "" then
+        self.text = self.text .. self.bank:sub(1, 1)
+        self.bank = self.bank:sub(2)
+    end
+end
+
+function Textbox:draw()
+    love.graphics.print(self.text, self.x, self.y)
+end
