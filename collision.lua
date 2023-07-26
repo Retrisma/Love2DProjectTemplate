@@ -1,11 +1,11 @@
-Rectangle = {
-    xoff = 0, yoff = 0
-}
+Rectangle = { }
 local rectangle_mt = class(Rectangle)
 
-function Rectangle:new(x, y, w, h)
+function Rectangle:new(x, y, w, h, xoff, yoff)
+    xoff = xoff or 0
+    yoff = yoff or 0
     local o = {
-        x = x, y = y, w = w, h = h
+        x = x, y = y, w = w, h = h, xoff = xoff, yoff = yoff
     }
     return setmetatable(o, rectangle_mt)
 end
