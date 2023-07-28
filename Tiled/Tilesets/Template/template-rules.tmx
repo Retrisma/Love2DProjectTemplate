@@ -9,7 +9,7 @@
   <property name="WrapBorder" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source=":/automap-tiles.tsx"/>
- <tileset firstgid="6" source="template.tsx"/>
+ <tileset firstgid="6" source="Template.tsx"/>
  <layer id="2" name="input_Template" width="17" height="200">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -837,7 +837,7 @@
  </layer>
  <layer id="3" name="output1_Template" width="17" height="200">
   <properties>
-   <property name="Probability" type="float" value="0.25"/>
+   <property name="Probability" type="float" value="1"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

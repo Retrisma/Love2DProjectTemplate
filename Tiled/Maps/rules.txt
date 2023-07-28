@@ -1,6 +1,2 @@
 ../Tilesets/Template/Template-rules.tmx
 ../Tilesets/Template/Template-rules.tmx
-../Tilesets/Template/Template-rules.tmx
-../Tilesets/Template/Template-rules.tmx
-../Tilesets/Template/Template-rules.tmx
-../Tilesets/Template/Template-rules.tmx
