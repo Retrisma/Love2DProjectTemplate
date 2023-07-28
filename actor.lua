@@ -132,7 +132,7 @@ function Actor:draw()
             local color = { r = 0, g = 0, b = 0 }
             if self.type == "static" then color.b = 1
             elseif self.type == "dynamic" then color.r = 1 end
-            
+
             box:draw(color)
         end
     end

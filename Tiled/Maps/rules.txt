@@ -1,8 +1,6 @@
-../Tilesets/Template/template-rules.tmx
-../Tilesets/Template/template-formatting.tmx
-../Tilesets/Template/template-filler.tmx
-../Tilesets/Template/template-filler.tmx
-../Tilesets/Template/template-filler.tmx
-../Tilesets/Template/template-filler.tmx
-../Tilesets/Template/template-filler.tmx
-../Tilesets/Template/template-filler.tmx
+../Tilesets/Template/Template-rules.tmx
+../Tilesets/Template/Template-rules.tmx
+../Tilesets/Template/Template-rules.tmx
+../Tilesets/Template/Template-rules.tmx
+../Tilesets/Template/Template-rules.tmx
+../Tilesets/Template/Template-rules.tmx
