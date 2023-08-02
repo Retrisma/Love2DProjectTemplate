@@ -74,5 +74,5 @@ function Textbox:update(dt)
 end
 
 function Textbox:draw()
-    love.graphics.print(self.text, self.x, self.y)
+    love.graphics.print(self.text, self.x * window.scale, self.y * window.scale, 0, window.scale)
 end

@@ -34,8 +34,8 @@ function love.load()
     map = loadmap("sample")
 
     Button:add(500, 40, "button", function() showdebug = not showdebug end)
-    Textbox:add(850, 20, "debug button", { scroll = false })
-    Textbox:add(50, 550, "i am a scrolling text box of text.", { scroll = true })
+    Textbox:add(500, 10, "debug button", { scroll = false })
+    Textbox:add(50, 330, "i am a scrolling text box of text.", { scroll = true })
 end
 
 function love.update(dt)
