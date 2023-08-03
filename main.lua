@@ -64,8 +64,8 @@ function love.update(dt)
     mouse.op = mouse.p
     if oldscale ~= window.scale then
         map:resize(
-            math.min(window.w * (1 / window.scale), 10000), 
-            math.min(window.h * (1 / window.scale), 10000)
+            math.max(1, math.min(window.w * (1 / window.scale), 10000)), 
+            math.max(1, math.min(window.h * (1 / window.scale), 10000))
         )
     end
 end
