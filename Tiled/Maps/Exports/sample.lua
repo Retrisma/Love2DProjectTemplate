@@ -2972,7 +2972,9 @@ return {
       offsety = 0,
       parallaxx = 1,
       parallaxy = 1,
-      properties = {},
+      properties = {
+        ["collidable"] = true
+      },
       encoding = "lua",
       data = {
         85, 85, 85, 85, 95, 97, 97, 97, 97, 23, 105, 107, 108, 108, 108, 108, 107, 108, 108, 105, 106, 107, 107, 24, 97, 97, 85, 85, 85, 85,

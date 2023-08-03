@@ -9077,7 +9077,7 @@ return {
       parallaxx = 1,
       parallaxy = 1,
       properties = {
-        ["collidable"] = false
+        ["collidable"] = true
       },
       encoding = "lua",
       data = {

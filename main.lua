@@ -31,7 +31,7 @@ function love.load()
     loadassets()
     
     font = love.graphics.setFont(fonts["CommonCase"])
-    map = loadmap("sample")
+    map = loadmap("slime")
 
     Button:add(500, 40, "button", function() showdebug = not showdebug end)
     Textbox:add(500, 10, "debug button", { scroll = false })

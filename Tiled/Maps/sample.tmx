@@ -5,6 +5,9 @@
  </editorsettings>
  <tileset firstgid="1" source="../Tilesets/Template/Template.tsx"/>
  <layer id="1" name="Template" width="30" height="20">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 85,85,85,85,95,97,97,97,97,23,105,107,108,108,108,108,107,108,108,105,106,107,107,24,97,97,85,85,85,85,
 85,85,85,23,105,106,105,108,105,121,0,0,0,0,0,0,0,0,0,0,0,0,0,103,105,24,85,85,85,85,

@@ -14,8 +14,6 @@ function gettile(layer, x, y, custommap)
     custommap = custommap or map
     local l = custommap.layers[layer]
 
-    if not l then error(layer) end
-
     if y <= 0 or x <= 0 or y > custommap.height or x > custommap.width then return nil end
 
     return l.data[y][x]
@@ -29,24 +27,17 @@ function surrounded(layer, x, y, custommap)
         and gettile(layer, x, y + 1, custommap) ~= nil
 end
 
-function loadmap(map)
-    local path = "Tiled/Maps/Exports/" .. map .. ".lua"
-    local map = sti(path)
-
-    local mapspr = Actor:new(0, 0, "animation")
-    mapspr.body = {}
-    mapspr.visible = false
-
+function addcollisionlayer(map, layer, mapspr)
     local x = 1
     for y = 1, map.height do
         while x <= map.width do
-            local tile = gettile("Template", x, y, map)
-            if tile and tile.gid ~= 0 and not surrounded("Template", x, y, map) then 
+            local tile = gettile(layer, x, y, map)
+            if tile and tile.gid ~= 0 and not surrounded(layer, x, y, map) then 
                 local ox = x
                 local width = tile.width
 
                 --extend box horizontally
-                while gettile("Template", x + 1, y, map) ~= nil do
+                while gettile(layer, x + 1, y, map) ~= nil do
                     width = width + tile.width
                     x = x + 1
                 end
@@ -69,6 +60,25 @@ function loadmap(map)
             x = x + 1
         end
         x = 1
+    end
+end
+
+function loadmap(map)
+    local path = "Tiled/Maps/Exports/" .. map .. ".lua"
+    local map = sti(path)
+
+    local mapspr = Actor:new(0, 0, "animation")
+    mapspr.body = {}
+    mapspr.visible = false
+
+    for k,layer in pairs(map.layers) do
+        if type(k) == "number" then goto layercont end
+        if layer.objects ~= nil then goto layercont end
+        if layer.properties["collidable"] ~= true then goto layercont end
+
+        addcollisionlayer(map, layer.name, mapspr)
+
+        ::layercont::
     end
 
     table.insert(p, mapspr)
