@@ -35,12 +35,12 @@ function love.load()
 
     Button:add(500, 40, "button", function() showdebug = not showdebug end)
     Textbox:add(500, 10, "debug button", { scroll = false })
-    Textbox:add(50, 330, "i am a scrolling text box of text.", { scroll = true })
 end
 
 function love.update(dt)
     --calculate fixed timestep
     local rate = speed.target * dt * speed.multiplier * 30
+    local oldscale = window.scale
 
     updatemouse()
 
@@ -62,6 +62,12 @@ function love.update(dt)
     end
 
     mouse.op = mouse.p
+    if oldscale ~= window.scale then
+        map:resize(
+            math.min(window.w * (1 / window.scale), 10000), 
+            math.min(window.h * (1 / window.scale), 10000)
+        )
+    end
 end
 
 function love.draw()
