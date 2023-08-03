@@ -1,2 +1,7 @@
 ../Tilesets/Template/Template-rules.tmx
 ../Tilesets/Template/Template-rules.tmx
+../Tilesets/Stones/Stones-rules.tmx
+../Tilesets/Stones/Stones-rules.tmx
+
+../Tilesets/bgStones/bgStones-rules.tmx
+../Tilesets/bgStones/bgStones-rules.tmx

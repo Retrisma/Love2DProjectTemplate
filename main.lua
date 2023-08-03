@@ -8,13 +8,13 @@ require "sprite"
 require "ui"
 require "actor"
 require "tools"
-sti = require "sti"
-moonshine = require "moonshine"
+sti = require "lib/sti"
+moonshine = require "lib/moonshine"
 
 showdebug = true
 debug = ""
 
-window = { w = 1050, h = 600, scale = 1.65 }
+window = { w = 1050, h = 600, scale = 1 }
 
 camera = { x = 0, y = 0, rx = 0, ry = 0 }
 
@@ -48,10 +48,10 @@ function love.update(dt)
         if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
         if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
-        if love.keyboard.isDown("s") then camera.y = camera.y - rate * 100 end
-        if love.keyboard.isDown("d") then camera.x = camera.x - rate * 100 end
-        if love.keyboard.isDown("w") then camera.y = camera.y + rate * 100 end
-        if love.keyboard.isDown("a") then camera.x = camera.x + rate * 100 end
+        if love.keyboard.isDown("s") then camera.y = camera.y - rate * 1000 end
+        if love.keyboard.isDown("d") then camera.x = camera.x - rate * 1000 end
+        if love.keyboard.isDown("w") then camera.y = camera.y + rate * 1000 end
+        if love.keyboard.isDown("a") then camera.x = camera.x + rate * 1000 end
 
         for _,v in pairs(p) do
             v:update(rate)
@@ -65,12 +65,12 @@ function love.update(dt)
 end
 
 function love.draw()
-    map:draw(camera.rx, camera.ry, window.scale)
+    --draw tiled map
+    map:draw(camera.rx, camera.ry, window.scale, window.scale)
 
     love.graphics.push()
     --set drawing offset to camera position
     love.graphics.translate(camera.rx * window.scale, camera.ry * window.scale)
-    --draw tiled map
     
     for _,v in pairs(p) do
         v:draw()
@@ -78,8 +78,8 @@ function love.draw()
 
     --draw mouse cursor
     love.graphics.circle("fill", mouse.x, mouse.y, 3)
-
     love.graphics.pop()
+
     if showdebug then
         love.graphics.print(tostring(debug or 0))
     end
