@@ -14,13 +14,15 @@ moonshine = require "lib/moonshine"
 showdebug = true
 debug = ""
 
-window = { w = 1050, h = 600, scale = 1 }
+window = { w = 1050, h = 600, scale = 1.65 }
 
 camera = { x = 0, y = 0, rx = 0, ry = 0 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
 gamestate = { state = 0, main = 0, paused = 1 }
+
+physics = { gravity = 100, friction = 20 }
 
 p = {}
 

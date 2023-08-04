@@ -1,3 +1,4 @@
+--anonymous functions connected with spawn objects in the map
 spawntable = {
     friend = function(x, y) 
         Sprite:add(x, y, "friend") 
@@ -10,6 +11,7 @@ spawntable = {
     end
 }
 
+--get tile data from a layer at given coordinates
 function gettile(layer, x, y, custommap)
     custommap = custommap or map
     local l = custommap.layers[layer]
@@ -19,6 +21,7 @@ function gettile(layer, x, y, custommap)
     return l.data[y][x]
 end
 
+--check to see if a tile is surrounded by other tiles on this layer
 function surrounded(layer, x, y, custommap)
     custommap = custommap or map
     return gettile(layer, x - 1, y, custommap) ~= nil 
@@ -27,6 +30,7 @@ function surrounded(layer, x, y, custommap)
         and gettile(layer, x, y + 1, custommap) ~= nil
 end
 
+--populate collision layers with fixtures applied to the map's physics object
 function addcollisionlayer(map, layer, mapspr)
     local x = 1
     for y = 1, map.height do
@@ -63,6 +67,7 @@ function addcollisionlayer(map, layer, mapspr)
     end
 end
 
+--load a map file, including spawning entities and generating collision
 function loadmap(map)
     local path = "Tiled/Maps/Exports/" .. map .. ".lua"
     local map = sti(path)
@@ -89,6 +94,7 @@ function loadmap(map)
     return map
 end
 
+--look up in the spawntable for each object in the map
 function spawn(map)
     for k,v in pairs(map.objects) do
         if spawntable[v.name] then

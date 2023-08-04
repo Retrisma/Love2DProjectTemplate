@@ -100,7 +100,7 @@ function Actor:updatebody()
 end
 
 function Actor:applyphysics(dt)
-    local friction = 1 / (1 + (dt * 20))
+    local friction = 1 / (1 + (dt * physics.friction))
     self.dx = self.dx * friction
     --self.dy = self.dy * friction
 
@@ -110,7 +110,7 @@ function Actor:applyphysics(dt)
     if math.abs(self.dx) < 0.001 then self.dx = 0 end
     if math.abs(self.dy) < 0.001 then self.dy = 0 end
 
-    self.dy = self.dy + dt * 100
+    self.dy = self.dy + dt * physics.gravity
 end
 
 function Actor:update(dt)

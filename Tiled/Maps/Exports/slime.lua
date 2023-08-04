@@ -9149,7 +9149,7 @@ return {
       id = 2,
       name = "Object Layer",
       class = "",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,

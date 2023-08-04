@@ -42,6 +42,7 @@ function Button:animate(dt)
     self.frame = self.state
 end
 
+--textbox class
 Textbox = { bank = "" }
 local textbox_mt = class(Textbox)
 
