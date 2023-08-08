@@ -7,11 +7,12 @@ require "map"
 require "sprite"
 require "ui"
 require "actor"
+require "player"
 require "tools"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-showdebug = true
+showdebug = false
 debug = ""
 
 window = { w = 1050, h = 600, scale = 1.65 }
@@ -28,15 +29,19 @@ p = {}
 
 function love.load()
     love.window.setMode(window.w, window.h, {vsync = true})
-    love.window.setTitle("Love2D Project Template")
+	love.window.setTitle("Love2D Project Template")
 
     loadassets()
     
     font = love.graphics.setFont(fonts["CommonCase"])
     map = loadmap("slime")
 
-    Button:add(500, 40, "button", function() showdebug = not showdebug end)
-    Textbox:add(500, 10, "debug button", { scroll = false })
+    for k,v in pairs(p) do
+        if v.user == "player" then player = v break end
+    end
+
+    Button:add(500, 300, "button", function() showdebug = not showdebug end)
+    Textbox:add(500, 290, "debug button", { scroll = false })
 end
 
 function love.update(dt)
@@ -47,20 +52,25 @@ function love.update(dt)
     updatemouse()
 
     if gamestate.state == gamestate.main then
-        if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
-        if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
+        if showdebug then
+            if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
+            if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
-        if love.keyboard.isDown("s") then camera.y = camera.y - rate * 1000 end
-        if love.keyboard.isDown("d") then camera.x = camera.x - rate * 1000 end
-        if love.keyboard.isDown("w") then camera.y = camera.y + rate * 1000 end
-        if love.keyboard.isDown("a") then camera.x = camera.x + rate * 1000 end
+            if love.keyboard.isDown("s") then camera.y = camera.y - rate * 1000 end
+            if love.keyboard.isDown("d") then camera.x = camera.x - rate * 1000 end
+            if love.keyboard.isDown("w") then camera.y = camera.y + rate * 1000 end
+            if love.keyboard.isDown("a") then camera.x = camera.x + rate * 1000 end
+        else
+            camera.x = player.x * -1 + (window.w / 2 * (1 / window.scale))
+            camera.y = player.y * -1 + (window.h / 2 * (1 / window.scale))
+        end
 
         for _,v in pairs(p) do
             v:update(rate)
         end
 
-        camera.rx = math.floor(camera.x)
         camera.ry = math.floor(camera.y)
+        camera.rx = math.floor(camera.x)
     end
 
     mouse.op = mouse.p

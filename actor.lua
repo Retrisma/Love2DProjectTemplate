@@ -115,10 +115,6 @@ end
 
 function Actor:update(dt)
     if self.type == "dynamic" then
-        if love.keyboard.isDown("right") then self.dx = self.dx + dt * 100 end
-        if love.keyboard.isDown("left") then self.dx = self.dx - dt * 100 end
-        if love.keyboard.isDown("up") and self:collides({ x = 0, y = 0.01 }) then self.dy = -20 end
-
         self:applyphysics(dt)
     end
     self:animate(dt)

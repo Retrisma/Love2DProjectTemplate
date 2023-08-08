@@ -2,7 +2,8 @@
 Sprite = {
     r = 0,
     flipped = false,
-    visible = true
+    visible = true,
+    user = ""
 }
 local sprite_mt = class(Sprite)
 

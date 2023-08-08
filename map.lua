@@ -4,10 +4,12 @@ spawntable = {
         Sprite:add(x, y, "friend") 
     end,
     animation = function(x, y) 
-        Actor:add(
+        local a = Player:new(
             x, y, "animation", 
             { default = true, type = "dynamic" }
         )
+        a.user = "player"
+        table.insert(p, a)
     end
 }
 
