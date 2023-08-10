@@ -21,9 +21,18 @@ function Player:add(x, y, skins, args)
 end
 
 function Player:update(dt)
-    if love.keyboard.isDown("right") then self.dx = self.dx + dt * 100 end
-    if love.keyboard.isDown("left") then self.dx = self.dx - dt * 100 end
-    if love.keyboard.isDown("up") and self:collides({ x = 0, y = 0.01 }) then self.dy = -20 end
+    if love.keyboard.isDown("right") then
+        self.dx = self.dx + dt * 100
+        self.flipped = false
+    end
+    if love.keyboard.isDown("left") then
+        self.dx = self.dx - dt * 100
+        self.flipped = true
+    end
+    if love.keyboard.isDown("up") and self:collides({ x = 0, y = 0.01 }) then
+        self.dy = -20
+    end
+    
     self:applyphysics(dt)
     self:animate(dt)
 end

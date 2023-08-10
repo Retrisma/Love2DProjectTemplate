@@ -2,6 +2,7 @@ require "assets"
 require "input"
 require "audio"
 require "class"
+require "camera"
 require "collision"
 require "map"
 require "sprite"
@@ -9,15 +10,14 @@ require "ui"
 require "actor"
 require "player"
 require "tools"
+require "slime"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-showdebug = false
+showdebug = true
 debug = ""
 
 window = { w = 1050, h = 600, scale = 1.65 }
-
-camera = { x = 0, y = 0, rx = 0, ry = 0 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -28,7 +28,7 @@ physics = { gravity = 100, friction = 20 }
 p = {}
 
 function love.load()
-    love.window.setMode(window.w, window.h, {vsync = true})
+    love.window.setMode(window.w, window.h, { vsync = true })
 	love.window.setTitle("Love2D Project Template")
 
     loadassets()
@@ -56,21 +56,19 @@ function love.update(dt)
             if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
             if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
-            if love.keyboard.isDown("s") then camera.y = camera.y - rate * 1000 end
-            if love.keyboard.isDown("d") then camera.x = camera.x - rate * 1000 end
-            if love.keyboard.isDown("w") then camera.y = camera.y + rate * 1000 end
-            if love.keyboard.isDown("a") then camera.x = camera.x + rate * 1000 end
+            if love.keyboard.isDown("s") then camera.y = camera.y + rate * 1000 end
+            if love.keyboard.isDown("d") then camera.x = camera.x + rate * 1000 end
+            if love.keyboard.isDown("w") then camera.y = camera.y - rate * 1000 end
+            if love.keyboard.isDown("a") then camera.x = camera.x - rate * 1000 end
         else
-            camera.x = player.x * -1 + (window.w / 2 * (1 / window.scale))
-            camera.y = player.y * -1 + (window.h / 2 * (1 / window.scale))
+            camfollowsprite(player)
         end
 
         for _,v in pairs(p) do
             v:update(rate)
         end
 
-        camera.ry = math.floor(camera.y)
-        camera.rx = math.floor(camera.x)
+        camupdate()
     end
 
     mouse.op = mouse.p
@@ -84,11 +82,11 @@ end
 
 function love.draw()
     --draw tiled map
-    map:draw(camera.rx, camera.ry, window.scale, window.scale)
+    map:draw(camera.rx * -1, camera.ry * -1, window.scale, window.scale)
 
     love.graphics.push()
     --set drawing offset to camera position
-    love.graphics.translate(camera.rx * window.scale, camera.ry * window.scale)
+    love.graphics.translate(camera.rx * window.scale * -1, camera.ry * window.scale * -1)
     
     for _,v in pairs(p) do
         v:draw()
@@ -98,7 +96,7 @@ function love.draw()
     love.graphics.circle("fill", mouse.x, mouse.y, 3)
     love.graphics.pop()
 
-    if showdebug then
+    --if showdebug then
         love.graphics.print(tostring(debug or 0))
-    end
+    --end
 end

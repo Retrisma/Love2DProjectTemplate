@@ -74,7 +74,7 @@ function loadmap(map)
     local path = "Tiled/Maps/Exports/" .. map .. ".lua"
     local map = sti(path)
 
-    local mapspr = Actor:new(0, 0, "animation")
+    local mapspr = Actor:new(0, 0, "animation", { type = "static" })
     mapspr.body = {}
     mapspr.visible = false
 
@@ -92,6 +92,7 @@ function loadmap(map)
     debug = #mapspr.body
 
     spawn(map)
+    caminit(map)
 
     return map
 end

@@ -115,9 +115,11 @@ end
 
 function AnimatedSprite:drawselfanim()
     if self.visible then
+        local xoff = self.flipped and self.w * window.scale or (not self.flipped and 0)
+
         love.graphics.draw(
             self.anim.image, self.anim.quads[self.frame],
-            self.x * window.scale, self.y * window.scale, self.r,
+            self.x * window.scale + xoff, self.y * window.scale, self.r,
             (self.flipped and -1 or (not self.flipped and 1)) * window.scale, window.scale
         )
     end
