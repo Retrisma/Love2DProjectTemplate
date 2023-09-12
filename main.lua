@@ -28,7 +28,7 @@ physics = { gravity = 100, friction = 20 }
 p = {}
 
 function love.load()
-    love.window.setMode(window.w, window.h, { vsync = true })
+    love.window.setMode(window.w, window.h, { vsync = false })
 	love.window.setTitle("Love2D Project Template")
 
     loadassets()
@@ -36,7 +36,7 @@ function love.load()
     font = love.graphics.setFont(fonts["CommonCase"])
     map = loadmap("slime")
 
-    for k,v in pairs(p) do
+    for _,v in pairs(p) do
         if v.user == "player" then player = v break end
     end
 
@@ -47,7 +47,6 @@ end
 function love.update(dt)
     --calculate fixed timestep
     local rate = speed.target * dt * speed.multiplier * 30
-    local oldscale = window.scale
 
     updatemouse()
 
@@ -68,16 +67,10 @@ function love.update(dt)
             v:update(rate)
         end
 
-        camupdate()
+        updatecamera()
     end
 
     mouse.op = mouse.p
-    if oldscale ~= window.scale then
-        map:resize(
-            math.max(1, math.min(window.w * (1 / window.scale), 10000)), 
-            math.max(1, math.min(window.h * (1 / window.scale), 10000))
-        )
-    end
 end
 
 function love.draw()
