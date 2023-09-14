@@ -40,6 +40,10 @@ function Sprite:draw()
     end
 end
 
+function Sprite:translate()
+    return { x = self.x - camera.x, y = self.y - camera.y }
+end
+
 --animatedsprite class
 AnimatedSprite = inherits(Sprite, {
     frame = 1,

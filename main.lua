@@ -10,14 +10,13 @@ require "ui"
 require "actor"
 require "player"
 require "tools"
-require "slime"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
 showdebug = true
 debug = ""
 
-window = { w = 1050, h = 600, scale = 1.65 }
+window = { w = 1050, h = 600, scale = 1.3 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -60,7 +59,7 @@ function love.update(dt)
             if love.keyboard.isDown("w") then camera.y = camera.y - rate * 1000 end
             if love.keyboard.isDown("a") then camera.x = camera.x - rate * 1000 end
         else
-            camfollowsprite(player)
+            camfollowsprite(player, dt)
         end
 
         for _,v in pairs(p) do

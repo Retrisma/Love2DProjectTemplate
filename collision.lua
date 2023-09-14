@@ -41,7 +41,8 @@ function Rectangle:draw(color)
     love.graphics.setColor(color.r, color.g, color.b)
     local sr = self:translate()
     love.graphics.rectangle(
-        mode, sr.x, sr.y, 
+        mode,
+        sr.x, sr.y,
         sr.w, sr.h
     )
     love.graphics.setColor(1, 1, 1)
