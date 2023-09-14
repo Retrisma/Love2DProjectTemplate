@@ -13,7 +13,7 @@ require "tools"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-showdebug = true
+showdebug = false
 debug = ""
 
 window = { w = 1050, h = 600, scale = 1.3 }
@@ -59,14 +59,14 @@ function love.update(dt)
             if love.keyboard.isDown("w") then camera.y = camera.y - rate * 1000 end
             if love.keyboard.isDown("a") then camera.x = camera.x - rate * 1000 end
         else
-            camfollowsprite(player, dt)
+            camfollowsprite(player)
         end
 
         for _,v in pairs(p) do
             v:update(rate)
         end
 
-        updatecamera()
+        updatecamera(dt)
     end
 
     mouse.op = mouse.p
