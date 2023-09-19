@@ -34,7 +34,7 @@ function love.load()
     loadassets()
     
     font = love.graphics.setFont(fonts["CommonCase"])
-    map = loadmap("slime")
+    map = loadmap("sample")
 
     for _,v in pairs(p) do
         if v.user == "player" then player = v break end
@@ -72,11 +72,11 @@ end
 
 function love.draw()
     --draw tiled map
-    map:draw(camera.rx * -1, camera.ry * -1, window.scale, window.scale)
+    map:draw(camera.fx * -1, camera.fy * -1, window.scale, window.scale)
 
     love.graphics.push()
     --set drawing offset to camera position
-    love.graphics.translate(camera.rx * window.scale * -1, camera.ry * window.scale * -1)
+    love.graphics.translate(camera.fx * window.scale * -1, camera.fy * window.scale * -1)
     
     for _,v in pairs(p) do
         v:draw()

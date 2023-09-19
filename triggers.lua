@@ -39,8 +39,6 @@ function CameraLockTrigger:new(x, y, w, h, xlock, ylock)
         camera.ylock = o.ylock
     end
 
-    debug = self.ylock
-
     local s = setmetatable(o, camera_lock_trigger_mt)
     return s
 end
