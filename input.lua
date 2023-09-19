@@ -18,3 +18,7 @@ function updatemouse()
         mouse.held = false
     end
 end
+
+function love.keypressed(key, scancode, isrepeat)
+    if key == "backspace" then showdebug = not showdebug end
+end

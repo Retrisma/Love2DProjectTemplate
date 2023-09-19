@@ -52,6 +52,16 @@ function Actor:collides(offset)
     return false
 end
 
+function Actor:collideswithrect(rect, offset)
+    offset = offset or { x = 0, y = 0 }
+    for _, box in pairs(self.body) do
+        if box:collideswith(rect, offset) then
+            return true
+        end
+    end
+    return false
+end
+
 function Actor:movex(vel)
     self.xr = self.xr + vel
     local move = self.xr > 0 and math.floor(self.xr) or self.xr <= 0 and math.ceil(self.xr)

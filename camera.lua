@@ -2,7 +2,8 @@ camera = {
     x = 0, y = 0, -- target coordinates
     rx = 0, ry = 0, -- real coordinates
     fx = 0, fy = 0, -- rounded coordinates
-    xoff = 0, yoff = 0,
+    xoff = 0, yoff = 0, -- offset
+    xlock = false, ylock = false, -- camera lock coordinates
     init = false,
     damping = 10
 }
@@ -49,6 +50,9 @@ function updatecamera(dt)
 
     camera.rx = qerp(camera.rx, camera.x + (camera.xoff * (window.w * (1 / window.scale))), dt)
     camera.ry = qerp(camera.ry, camera.y, dt)
+
+    if camera.xlock then camera.rx = camera.xlock end
+    if camera.ylock then camera.ry = camera.ylock end
 
     camera.fx = math.floor(camera.rx)
     camera.fy = math.floor(camera.ry)

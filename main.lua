@@ -9,6 +9,7 @@ require "sprite"
 require "ui"
 require "actor"
 require "player"
+require "triggers"
 require "tools"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
@@ -53,11 +54,8 @@ function love.update(dt)
         if showdebug then
             if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
             if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
-
-            if love.keyboard.isDown("s") then camera.y = camera.y + rate * 1000 end
-            if love.keyboard.isDown("d") then camera.x = camera.x + rate * 1000 end
-            if love.keyboard.isDown("w") then camera.y = camera.y - rate * 1000 end
-            if love.keyboard.isDown("a") then camera.x = camera.x - rate * 1000 end
+            
+            camfollowsprite(player)
         else
             camfollowsprite(player)
         end

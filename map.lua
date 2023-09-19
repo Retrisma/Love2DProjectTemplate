@@ -1,15 +1,27 @@
 --anonymous functions connected with spawn objects in the map
 spawntable = {
-    friend = function(x, y) 
-        Sprite:add(x, y, "friend") 
+    friend = function(v)
+        local data = getobjectdata(v)
+        Sprite:add(data.x, data.y, "friend")
     end,
-    animation = function(x, y) 
+    animation = function(v)
+        local data = getobjectdata(v)
         local a = Player:new(
-            x, y, "animation", 
+            data.x, data.y, "animation",
             { default = true, type = "dynamic" }
         )
         a.user = "player"
         table.insert(p, a)
+    end,
+
+
+    CamLockY = function(v)
+        local data = getobjectdata(v)
+        CameraLockTrigger:add(data.x, data.y, data.w, data.h, false, data.y)
+    end,
+    CamUnlockY = function(v)
+        local data = getobjectdata(v)
+        CameraLockTrigger:add(data.x, data.y, data.w, data.h, false, false)
     end
 }
 
@@ -38,7 +50,7 @@ function addcollisionlayer(map, layer, mapspr)
     for y = 1, map.height do
         while x <= map.width do
             local tile = gettile(layer, x, y, map)
-            if tile and tile.gid ~= 0 and not surrounded(layer, x, y, map) then 
+            if tile and tile.gid ~= 0 and not surrounded(layer, x, y, map) then
                 local ox = x
                 local width = tile.width
 
@@ -61,7 +73,7 @@ function addcollisionlayer(map, layer, mapspr)
                     width, tile.height,
                     (ox - 1) * tile.width, (y - 1) * tile.height
                 )
-                ::mapcont::  
+                ::mapcont::
             end
             x = x + 1
         end
@@ -80,7 +92,10 @@ function loadmap(map)
 
     for k,layer in pairs(map.layers) do
         if type(k) == "number" then goto layercont end
-        if layer.objects ~= nil then goto layercont end
+        if layer.objects ~= nil then
+            layer.opacity = 0
+            goto layercont
+        end
         if layer.properties["collidable"] ~= true then goto layercont end
 
         addcollisionlayer(map, layer.name, mapspr)
@@ -89,7 +104,6 @@ function loadmap(map)
     end
 
     table.insert(p, mapspr)
-    debug = #mapspr.body
 
     spawn(map)
     caminit(map)
@@ -101,7 +115,15 @@ end
 function spawn(map)
     for k,v in pairs(map.objects) do
         if spawntable[v.name] then
-            spawntable[v.name](math.floor(v.x), math.floor(v.y))
+            spawntable[v.name](v)
         end
     end
+end
+
+function getobjectdata(v)
+    return {
+        x = math.floor(v.x), y = math.floor(v.y),
+        w = math.floor(v.width),
+        h = math.floor(v.height)
+    }
 end

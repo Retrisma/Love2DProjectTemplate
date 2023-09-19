@@ -2,13 +2,19 @@
 Rectangle = { }
 local rectangle_mt = class(Rectangle)
 
-function Rectangle:new(x, y, w, h, xoff, yoff)
+function Rectangle:init(x, y, w, h, xoff, yoff)
     --offset values are meant for rectangles that are offset to the coordinates of physics bodies
     xoff = xoff or 0
     yoff = yoff or 0
     local o = {
         x = x, y = y, w = w, h = h, xoff = xoff, yoff = yoff
     }
+
+    return o
+end
+
+function Rectangle:new(x, y, w, h, xoff, yoff)
+    local o = Rectangle:init(x, y, w, h, xoff, yoff)
     return setmetatable(o, rectangle_mt)
 end
 
@@ -29,7 +35,7 @@ end
 --checks to see if this rectangle intersects with another rectangle, with an optional offset applied to this
 function Rectangle:collideswith(rect, offset)
     offset = offset or { x = 0, y = 0 }
-    return math.abs((self.x + offset.x + (self.w / 2)) - (rect.x + (rect.w / 2))) < self.w / 2 + rect.w / 2 
+    return math.abs((self.x + offset.x + (self.w / 2)) - (rect.x + (rect.w / 2))) < self.w / 2 + rect.w / 2
         and math.abs((self.y + offset.y + (self.h / 2)) - (rect.y + (rect.h / 2))) < self.h / 2 + rect.h / 2
 end
 
