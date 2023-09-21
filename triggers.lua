@@ -4,8 +4,6 @@ Trigger = inherits(Rectangle, {
     action = function() end
 })
 
-local trigger_mt = class(Trigger)
-
 function Trigger:update(dt)
     for _, sprite in pairs(p) do
         if sprite.user ~= nil then
@@ -19,7 +17,7 @@ function Trigger:update(dt)
 end
 
 function Trigger:draw()
-    if showdebug then Rectangle.draw(self) end
+    if showdebug then Rectangle.draw(self, { r = 1, g = 1, b = 1 }, "line") end
 end
 
 --camlock trigger class

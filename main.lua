@@ -14,9 +14,6 @@ require "tools"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-showdebug = false
-debug = ""
-
 window = { w = 1050, h = 600, scale = 1.3 }
 
 speed = { target = 1 / 60, multiplier = 1 }
@@ -34,7 +31,7 @@ function love.load()
     loadassets()
     
     font = love.graphics.setFont(fonts["CommonCase"])
-    map = loadmap("sample")
+    map = loadmap("slime")
 
     for _,v in pairs(p) do
         if v.user == "player" then player = v break end
@@ -48,23 +45,28 @@ function love.update(dt)
     --calculate fixed timestep
     local rate = speed.target * dt * speed.multiplier * 30
 
+    updatecamera(dt)
+
     updatemouse()
+
+    for _,v in pairs(p) do
+        v:update(rate)
+    end
 
     if gamestate.state == gamestate.main then
         if showdebug then
             if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
             if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
+
+            if love.keyboard.isDown("d") then camera.x = camera.x + rate * 500 end
+            if love.keyboard.isDown("a") then camera.x = camera.x - rate * 500 end
+            if love.keyboard.isDown("w") then camera.y = camera.y - rate * 500 end
+            if love.keyboard.isDown("s") then camera.y = camera.y + rate * 500 end
             
-            camfollowsprite(player)
+            --camfollowsprite(player)
         else
             camfollowsprite(player)
         end
-
-        for _,v in pairs(p) do
-            v:update(rate)
-        end
-
-        updatecamera(dt)
     end
 
     mouse.op = mouse.p
@@ -87,6 +89,6 @@ function love.draw()
     love.graphics.pop()
 
     --if showdebug then
-        love.graphics.print(tostring(debug or 0))
+        love.graphics.print(printdebug(), 0, 0)
     --end
 end

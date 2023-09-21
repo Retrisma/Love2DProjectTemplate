@@ -1,3 +1,19 @@
+showdebug = false
+debug = {}
+
+function printdebug()
+    local out = ""
+    for k,v in pairs(debug) do
+        if type(v) == "table" or type(v) == "userdata" then
+            out = out .. (k .. ": " .. type(v)) .. "\n"
+        else
+            out = out .. (k .. ": " .. v) .. "\n"
+        end
+    end
+
+    return out
+end
+
 function math.mid(a, b, c)
     if a > b then
         if b > c then return b
