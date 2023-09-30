@@ -26,7 +26,7 @@ function camfollowsprite(o)
     local deadzone = 0.0 -- the middle horizontal n of the screen is a camera deadzone
     local ox = o:translate().x / (window.w * (1 / window.scale))
 
-    if o.flipped then camera.xoff = -0.1
+    if o.flipped then camera.xoff = -0.1 --lookahead
     else camera.xoff = 0.1 end
     
     if ox > 0.5 + deadzone / 2 then
