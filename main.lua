@@ -11,6 +11,7 @@ require "actor"
 require "player"
 require "triggers"
 require "tools"
+require "drawing"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
@@ -31,14 +32,14 @@ function love.load()
 
     loadassets()
     
-    font = love.graphics.setFont(fonts["CommonCase"])
+    font = love.graphics.setFont(fonts["ElixiR"])
     map = loadmap("slime")
 
     for _,v in pairs(p) do
         if v.user == "player" then player = v break end
     end
 
-    Button:add(500, 300, "button", function() showdebug = not showdebug end)
+    Button:add(300, 2900, "button", function() showdebug = not showdebug end)
     Textbox:add(500, 290, "debug button", { scroll = false })
 end
 
@@ -48,6 +49,13 @@ function love.update(dt)
 
     updatecamera(dt)
     updatemouse()
+
+    debug.mx = mouse.x
+    debug.my = mouse.y
+    debug.px = player.x
+    debug.py = player.y
+    debug.cx = camera.x
+    debug.cy = camera.y
 
     --update all sprites
     for _,v in pairs(p) do
@@ -61,7 +69,7 @@ function love.update(dt)
 
             if love.keyboard.isDown("d") then camera.x = camera.x + rate * 500 end
             if love.keyboard.isDown("a") then camera.x = camera.x - rate * 500 end
-            if love.keyboard.isDown("width") then camera.y = camera.y - rate * 500 end
+            if love.keyboard.isDown("w") then camera.y = camera.y - rate * 500 end
             if love.keyboard.isDown("s") then camera.y = camera.y + rate * 500 end
         else
             camfollowsprite(player)
@@ -78,11 +86,14 @@ function love.draw()
     love.graphics.push()
 
     --set drawing offset to camera position
-    love.graphics.translate(camera.fx * window.scale * -1, camera.fy * window.scale * -1)
+    love.graphics.scale(window.scale)
+    love.graphics.translate(camera.fx * -1, camera.fy * -1)
     
+    --sort the sprite table by drawing depth
+    table.sort(p, function(a, b) return (a.depth or 5) < (b.depth or 5) end)
     --draw all sprites
     for _,v in pairs(p) do
-        v:draw()
+        drawobject(v)
     end
 
     --draw mouse cursor

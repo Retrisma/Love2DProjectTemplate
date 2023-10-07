@@ -18,18 +18,9 @@ function Rectangle:new(x, y, width, height, xoff, yoff)
     return setmetatable(o, rectangle_mt)
 end
 
---returns a rectangle that is scaled to the current window scale
-function Rectangle:translate()
-    return Rectangle:new(
-        self.x * window.scale, self.y * window.scale,
-        self.width * window.scale, self.height * window.scale
-    )
-end
-
 --checks to see if this rectangle intersects with a given point
 function Rectangle:containspoint(x, y)
-    local sr = self:translate()
-    return x >= sr.x and x <= sr.x + sr.width and y >= sr.y and y <= sr.y + sr.height
+    return x >= self.x and x <= self.x + self.width and y >= self.y and y <= self.y + self.height
 end
 
 --checks to see if this rectangle intersects with another rectangle, with an optional offset applied to this
@@ -47,11 +38,10 @@ function Rectangle:draw(color, mode)
 
     color = color or { r = 1, g = 1, b = 1 }
     love.graphics.setColor(color.r, color.g, color.b)
-    local sr = self:translate()
     love.graphics.rectangle(
         mode,
-        sr.x, sr.y,
-        sr.width, sr.height
+        self.x, self.y,
+        self.width, self.height
     )
     love.graphics.setColor(1, 1, 1)
 end

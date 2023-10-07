@@ -2,8 +2,11 @@ mouse = { x = 0, y = 0, p = false, op = false, held = false }
 
 function updatemouse()
     mouse.x, mouse.y = love.mouse.getPosition()
-    mouse.x = mouse.x - camera.fx * window.scale * -1
-    mouse.y = mouse.y - camera.fy * window.scale * -1
+    --mouse.x = mouse.x - camera.fx * window.scale * -1
+    --mouse.y = mouse.y - camera.fy * window.scale * -1
+
+    mouse.x = mouse.x + camera.fx
+    mouse.x = mouse.y + camera.fy
 
     mouse.p = false
     

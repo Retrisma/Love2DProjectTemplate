@@ -7,7 +7,7 @@ function printdebug()
         if type(v) == "table" or type(v) == "userdata" then
             out = out .. (k .. ": " .. type(v)) .. "\n"
         else
-            out = out .. (k .. ": " .. v) .. "\n"
+            out = out .. (k .. ": " .. tostring(v)) .. "\n"
         end
     end
 
@@ -24,6 +24,18 @@ function math.mid(a, b, c)
         elseif b > c then return c
         else return b end
     end
+end
+
+function table.find(t, o)
+    for i, v in ipairs(t) do
+        if v == o then
+            return i
+        end
+    end
+end
+
+function table.removevalue(t, o)
+    table.remove(t, table.find(t, o))
 end
 
 function qerp(current, target, dt, ease)
