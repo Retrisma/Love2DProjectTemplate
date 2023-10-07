@@ -17,11 +17,11 @@ spawntable = {
 
     CamLockY = function(v)
         local data = getobjectdata(v)
-        CameraLockTrigger:add(data.x, data.y, data.w, data.h, false, data.y)
+        CameraLockTrigger:add(data.x, data.y, data.width, data.height, false, data.y)
     end,
     CamUnlockY = function(v)
         local data = getobjectdata(v)
-        CameraLockTrigger:add(data.x, data.y, data.w, data.h, false, false)
+        CameraLockTrigger:add(data.x, data.y, data.width, data.height, false, false)
     end
 }
 
@@ -62,9 +62,9 @@ function addcollisionlayer(map, layer, mapspr)
 
                 --extend box vertically
                 for _,box in pairs(mapspr.body) do
-                    if box.w == width and box.x == (ox - 1) * tile.width
-                    and (y - 1) * tile.height >= box.y and (y - 1) * tile.height <= box.y + box.h then
-                        box.h = box.h + tile.height
+                    if box.width == width and box.x == (ox - 1) * tile.width
+                    and (y - 1) * tile.height >= box.y and (y - 1) * tile.height <= box.y + box.height then
+                        box.height = box.height + tile.height
                         goto mapcont
                     end
                 end
@@ -123,7 +123,7 @@ end
 function getobjectdata(v)
     return {
         x = math.floor(v.x), y = math.floor(v.y),
-        w = math.floor(v.width),
-        h = math.floor(v.height)
+        width = math.floor(v.width),
+        height = math.floor(v.height)
     }
 end

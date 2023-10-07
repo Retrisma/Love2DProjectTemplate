@@ -12,7 +12,7 @@ function Button:init(x, y, anim, action)
         action = action
     }
 
-    o.bounds = Rectangle:new(o.x, o.y, o.anim.w, o.anim.h)
+    o.bounds = Rectangle:new(o.x, o.y, o.anim.width, o.anim.height)
 
     return o
 end

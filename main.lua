@@ -14,7 +14,7 @@ require "tools"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-window = { w = 1050, h = 600, scale = 1.3 }
+window = { width = 1050, height = 600, scale = 1.3 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -25,8 +25,9 @@ physics = { gravity = 100, friction = 20 }
 p = {}
 
 function love.load()
-    love.window.setMode(window.w, window.h, { vsync = false })
+    love.window.setMode(window.width, window.height, { vsync = false })
 	love.window.setTitle("Love2D Project Template")
+    love.graphics.setDefaultFilter("nearest", "nearest")
 
     loadassets()
     
@@ -46,9 +47,9 @@ function love.update(dt)
     local rate = speed.target * dt * speed.multiplier * 30
 
     updatecamera(dt)
-
     updatemouse()
 
+    --update all sprites
     for _,v in pairs(p) do
         v:update(rate)
     end
@@ -60,10 +61,8 @@ function love.update(dt)
 
             if love.keyboard.isDown("d") then camera.x = camera.x + rate * 500 end
             if love.keyboard.isDown("a") then camera.x = camera.x - rate * 500 end
-            if love.keyboard.isDown("w") then camera.y = camera.y - rate * 500 end
+            if love.keyboard.isDown("width") then camera.y = camera.y - rate * 500 end
             if love.keyboard.isDown("s") then camera.y = camera.y + rate * 500 end
-            
-            --camfollowsprite(player)
         else
             camfollowsprite(player)
         end
@@ -77,15 +76,18 @@ function love.draw()
     map:draw(camera.fx * -1, camera.fy * -1, window.scale, window.scale)
 
     love.graphics.push()
+
     --set drawing offset to camera position
     love.graphics.translate(camera.fx * window.scale * -1, camera.fy * window.scale * -1)
     
+    --draw all sprites
     for _,v in pairs(p) do
         v:draw()
     end
 
     --draw mouse cursor
     love.graphics.circle("fill", mouse.x, mouse.y, 3)
+
     love.graphics.pop()
 
     --if showdebug then

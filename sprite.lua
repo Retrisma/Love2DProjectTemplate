@@ -1,6 +1,7 @@
 --sprite class
 Sprite = {
     r = 0,
+    alpha = 1,
     flipped = false,
     visible = true,
     user = ""
@@ -18,8 +19,8 @@ function Sprite:init(x, y, image)
         x = x, y = y,
         image = images[image]
     }
-    o.w = o.image:getWidth()
-    o.h = o.image:getHeight()
+    o.width = o.image:getWidth()
+    o.height = o.image:getHeight()
 
     return o
 end
@@ -70,8 +71,8 @@ function AnimatedSprite:init(x, y, skins)
     end
 
     o.anim = o.skins[1]
-    o.w = o.anim.image:getWidth() / o.anim.frames
-    o.h = o.anim.image:getHeight()
+    o.width = o.anim.image:getWidth() / o.anim.frames
+    o.height = o.anim.image:getHeight()
 
     return o
 end
@@ -119,7 +120,7 @@ end
 
 function AnimatedSprite:drawselfanim()
     if self.visible then
-        local xoff = self.flipped and self.w * window.scale or (not self.flipped and 0)
+        local xoff = self.flipped and self.width * window.scale or (not self.flipped and 0)
 
         love.graphics.draw(
             self.anim.image, self.anim.quads[self.frame],

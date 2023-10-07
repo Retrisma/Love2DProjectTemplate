@@ -26,14 +26,14 @@ function Actor:add(x, y, skins, args)
     table.insert(p, Actor:new(x, y, skins, args))
 end
 
-function Actor:addbox(w, h, xoff, yoff)
+function Actor:addbox(width, height, xoff, yoff)
     xoff = xoff or 0
     yoff = yoff or 0
-    table.insert(self.body, Rectangle:new(self.x + xoff, self.y + yoff, w, h, xoff, yoff))
+    table.insert(self.body, Rectangle:new(self.x + xoff, self.y + yoff, width, height, xoff, yoff))
 end
 
 function Actor:adddefaultbox()
-    self:addbox(self.w, self.h)
+    self:addbox(self.width, self.height)
 end
 
 function Actor:collides(offset)

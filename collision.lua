@@ -2,19 +2,19 @@
 Rectangle = { }
 local rectangle_mt = class(Rectangle)
 
-function Rectangle:init(x, y, w, h, xoff, yoff)
+function Rectangle:init(x, y, width, height, xoff, yoff)
     --offset values are meant for rectangles that are offset to the coordinates of physics bodies
     xoff = xoff or 0
     yoff = yoff or 0
     local o = {
-        x = x, y = y, w = w, h = h, xoff = xoff, yoff = yoff
+        x = x, y = y, width = width, height = height, xoff = xoff, yoff = yoff
     }
 
     return o
 end
 
-function Rectangle:new(x, y, w, h, xoff, yoff)
-    local o = Rectangle:init(x, y, w, h, xoff, yoff)
+function Rectangle:new(x, y, width, height, xoff, yoff)
+    local o = Rectangle:init(x, y, width, height, xoff, yoff)
     return setmetatable(o, rectangle_mt)
 end
 
@@ -22,21 +22,21 @@ end
 function Rectangle:translate()
     return Rectangle:new(
         self.x * window.scale, self.y * window.scale,
-        self.w * window.scale, self.h * window.scale
+        self.width * window.scale, self.height * window.scale
     )
 end
 
 --checks to see if this rectangle intersects with a given point
 function Rectangle:containspoint(x, y)
     local sr = self:translate()
-    return x >= sr.x and x <= sr.x + sr.w and y >= sr.y and y <= sr.y + sr.h
+    return x >= sr.x and x <= sr.x + sr.width and y >= sr.y and y <= sr.y + sr.height
 end
 
 --checks to see if this rectangle intersects with another rectangle, with an optional offset applied to this
 function Rectangle:collideswith(rect, offset)
     offset = offset or { x = 0, y = 0 }
-    return math.abs((self.x + offset.x + (self.w / 2)) - (rect.x + (rect.w / 2))) < self.w / 2 + rect.w / 2
-        and math.abs((self.y + offset.y + (self.h / 2)) - (rect.y + (rect.h / 2))) < self.h / 2 + rect.h / 2
+    return math.abs((self.x + offset.x + (self.width / 2)) - (rect.x + (rect.width / 2))) < self.width / 2 + rect.width / 2
+        and math.abs((self.y + offset.y + (self.height / 2)) - (rect.y + (rect.height / 2))) < self.height / 2 + rect.height / 2
 end
 
 function Rectangle:draw(color, mode)
@@ -51,7 +51,7 @@ function Rectangle:draw(color, mode)
     love.graphics.rectangle(
         mode,
         sr.x, sr.y,
-        sr.w, sr.h
+        sr.width, sr.height
     )
     love.graphics.setColor(1, 1, 1)
 end

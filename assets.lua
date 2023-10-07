@@ -25,8 +25,8 @@ function loadfolder(path, type)
                 quads = {}
             }
 
-            out[shortname].w = out[shortname].image:getWidth() / f
-            out[shortname].h = out[shortname].image:getHeight()
+            out[shortname].width = out[shortname].image:getWidth() / f
+            out[shortname].height = out[shortname].image:getHeight()
 
             --populate the quads with each frame of animation.
             for x = 0, out[shortname].frames - 1 do

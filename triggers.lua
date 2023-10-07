@@ -27,8 +27,8 @@ CameraLockTrigger = inherits(Trigger, {
 
 local camera_lock_trigger_mt = class(CameraLockTrigger)
 
-function CameraLockTrigger:new(x, y, w, h, xlock, ylock)
-    local o = Rectangle:init(x, y, w, h)
+function CameraLockTrigger:new(x, y, width, height, xlock, ylock)
+    local o = Rectangle:init(x, y, width, height)
     o.xlock = xlock or false
     o.ylock = ylock or false
 
@@ -41,6 +41,6 @@ function CameraLockTrigger:new(x, y, w, h, xlock, ylock)
     return s
 end
 
-function CameraLockTrigger:add(x, y, w, h, xlock, ylock)
-    table.insert(p, CameraLockTrigger:new(x, y, w, h, xlock, ylock))
+function CameraLockTrigger:add(x, y, width, height, xlock, ylock)
+    table.insert(p, CameraLockTrigger:new(x, y, width, height, xlock, ylock))
 end
