@@ -54,8 +54,8 @@ function love.update(dt)
     debug.my = mouse.y
     debug.px = player.x
     debug.py = player.y
-    debug.cx = camera.x
-    debug.cy = camera.y
+    debug.cx = camera.fx
+    debug.cy = camera.fy
 
     --update all sprites
     for _,v in pairs(p) do

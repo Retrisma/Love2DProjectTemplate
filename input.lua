@@ -5,8 +5,8 @@ function updatemouse()
     --mouse.x = mouse.x - camera.fx * window.scale * -1
     --mouse.y = mouse.y - camera.fy * window.scale * -1
 
-    mouse.x = mouse.x + camera.fx
-    mouse.x = mouse.y + camera.fy
+    mouse.x = (mouse.x / window.scale) + camera.fx
+    mouse.y = (mouse.y / window.scale) + camera.fy
 
     mouse.p = false
     

@@ -127,7 +127,7 @@ function AnimatedSprite:drawselfanim()
         love.graphics.draw(
             self.anim.image, self.anim.quads[self.frame],
             self.x + xoff, self.y, self.r,
-            (self.flipped and -1 or (not self.flipped and 1))
+            (self.flipped and -1 or (not self.flipped and 1)), 1
         )
     end
 end
