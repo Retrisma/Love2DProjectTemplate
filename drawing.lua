@@ -5,6 +5,7 @@ function drawobject(o)
         if drawmode == "absolute" then
             love.graphics.push()
             love.graphics.origin()
+            love.graphics.scale(window.scale)
         end
 
         o:draw()

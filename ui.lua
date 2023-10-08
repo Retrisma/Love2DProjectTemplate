@@ -1,6 +1,7 @@
 --button class
 Button = inherits(AnimatedSprite, {
-    state = 1
+    state = 1,
+    drawmode = "absolute"
 })
 local button_mt = class(Button)
 
@@ -26,7 +27,7 @@ function Button:add(x, y, anim, action)
 end
 
 function Button:update(dt)
-    if self.bounds:containspoint(mouse.x, mouse.y) then
+    if self.bounds:containspoint(mouse.x, mouse.y, self.drawmode) then
         self.state = 2
         if mouse.p or mouse.held then
             self.state = 3

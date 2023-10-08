@@ -15,7 +15,7 @@ require "drawing"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-window = { width = 1050, height = 600, scale = 1.3 }
+window = { width = 800, height = 460, scale = 1.5 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -26,6 +26,9 @@ physics = { gravity = 100, friction = 20 }
 p = {}
 
 function love.load()
+    window.width = window.width * window.scale
+    window.height = window.height * window.scale
+
     love.window.setMode(window.width, window.height, { vsync = false })
 	love.window.setTitle("Love2D Project Template")
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -39,7 +42,8 @@ function love.load()
         if v.user == "player" then player = v break end
     end
 
-    Button:add(300, 2900, "button", function() showdebug = not showdebug end)
+    Button:add(50, 100, "button", function() showdebug = not showdebug end)
+    --Button:add(250, 2200, "button", function() showdebug = not showdebug end)
     Textbox:add(500, 290, "debug button", { scroll = false })
 end
 

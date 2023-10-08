@@ -19,8 +19,11 @@ function Rectangle:new(x, y, width, height, xoff, yoff)
 end
 
 --checks to see if this rectangle intersects with a given point
-function Rectangle:containspoint(x, y)
-    return x >= self.x and x <= self.x + self.width and y >= self.y and y <= self.y + self.height
+function Rectangle:containspoint(x, y, mode)
+    mode = mode or "relative"
+    local xoff = mode == "relative" and 0 or mode == "absolute" and camera.fx
+    local yoff = mode == "relative" and 0 or mode == "absolute" and camera.fy
+    return x >= self.x + xoff and x <= self.x + self.width + xoff and y >= self.y + yoff and y <= self.y + self.height + yoff
 end
 
 --checks to see if this rectangle intersects with another rectangle, with an optional offset applied to this
