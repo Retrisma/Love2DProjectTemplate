@@ -5,7 +5,7 @@ camera = {
     xoff = 0, yoff = 0, -- offset
     xlock = false, ylock = false, -- camera lock coordinates
     init = false,
-    damping = 10
+    damping = 2
 }
 
 function caminit(map)
@@ -51,8 +51,8 @@ function updatecamera(dt)
     if camera.xlock then camera.x = camera.xlock end
     if camera.ylock then camera.y = camera.ylock end
 
-    camera.rx = qerp(camera.rx, camera.x + (camera.xoff * (window.width * (1 / window.scale))), dt)
-    camera.ry = qerp(camera.ry, camera.y, dt)
+    camera.rx = qerp(camera.rx, camera.x + (camera.xoff * (window.width * (1 / window.scale))), dt * camera.damping)
+    camera.ry = qerp(camera.ry, camera.y, dt * camera.damping)
 
     camera.fx = math.floor(camera.rx)
     camera.fy = math.floor(camera.ry)

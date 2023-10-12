@@ -15,7 +15,7 @@ require "drawing"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
-window = { width = 800, height = 460, scale = 1.5 }
+window = { width = 800, height = 460, scale = 1.3 }
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -43,23 +43,22 @@ function love.load()
     end
 
     Button:add(50, 100, "button", function() showdebug = not showdebug end)
-    --Button:add(250, 2200, "button", function() showdebug = not showdebug end)
-    Textbox:add(500, 290, "debug button", { scroll = false })
+    Textbox:add(200, 100, "Everyone knows Mario is cool as fuck. Everyone knows Mario is cool as fuck.", {
+        scroll = true,
+        shadow = { 1, 0, 0 },
+        image = images["dialoguebox"],
+        hpad = 15,
+        vpad = 10,
+        font = fonts["ElixiR"]
+    })
 end
 
 function love.update(dt)
     --calculate fixed timestep
     local rate = speed.target * dt * speed.multiplier * 30
 
-    updatecamera(dt)
+    updatecamera(rate)
     updatemouse()
-
-    debug.mx = mouse.x
-    debug.my = mouse.y
-    debug.px = player.x
-    debug.py = player.y
-    debug.cx = camera.fx
-    debug.cy = camera.fy
 
     --update all sprites
     for _,v in pairs(p) do

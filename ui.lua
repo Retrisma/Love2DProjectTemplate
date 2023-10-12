@@ -44,7 +44,12 @@ function Button:animate(dt)
 end
 
 --textbox class
-Textbox = { bank = "" }
+Textbox = {
+    bank = "",
+    speed = 0.01, --delay in seconds per letter
+    cooldown = 0,
+    pixels = 0
+}
 local textbox_mt = class(Textbox)
 
 function Textbox:init(x, y, text, opts)
@@ -52,10 +57,20 @@ function Textbox:init(x, y, text, opts)
     local o = {
         x = x, y = y,
         text = "",
-        scroll = opts.scroll or false
+        drawmode = "absolute"
     }
 
+    for k,v in pairs(opts) do
+        o[k] = v
+    end
+
     if o.scroll then o.bank = text else o.text = text end
+
+    local word = o.bank:match("(%w+)(.+)")
+    local wordsize = fonts["ElixiR"]:getWidth(" " .. (word or ""))
+    o.pixels = wordsize
+
+    o.width = o.width or (o.image and o.image:getWidth()) or 100
 
     return o
 end
@@ -70,11 +85,52 @@ end
 
 function Textbox:update(dt)
     if self.bank ~= "" then
-        self.text = self.text .. self.bank:sub(1, 1)
+        self.cooldown = self.cooldown + dt
+        if self.cooldown > self.speed then
+            self:nextletter()
+            
+            self.cooldown = self.cooldown - self.speed
+        end
+    end
+end
+
+function Textbox:nextletter()
+    local char = self.bank:sub(1, 1)
+
+    if char == " " then
+        local word = self.bank:match("(%w+)(.+)")
+        local wordsize = fonts["ElixiR"]:getWidth(" " .. (word or ""))
+
+        if self.pixels + wordsize > self.width - (self.hpad * 2) then
+            self.text = self.text .. "\n"
+            self.pixels = 0
+        else
+            self.text = self.text .. char
+        end
+        
+        self.bank = self.bank:sub(2)
+        self.pixels = self.pixels + wordsize
+    else
+        self.text = self.text .. char
         self.bank = self.bank:sub(2)
     end
 end
 
 function Textbox:draw()
-    love.graphics.print(self.text, self.x, self.y, 0)
+    local textpos = {
+        x = self.x + (self.hpad or 0),
+        y = self.y + (self.vpad or 0)
+    }
+
+    if self.font then love.graphics.setFont(self.font) end
+
+    if self.image then
+        love.graphics.draw(self.image, self.x, self.y)
+    end
+    if self.shadow then
+        love.graphics.setColor(self.shadow)
+        love.graphics.print(self.text, textpos.x + 1, textpos.y + 1, 0)
+        love.graphics.setColor(1, 1, 1, 1)
+    end
+    love.graphics.print(self.text, textpos.x, textpos.y, 0)
 end

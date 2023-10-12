@@ -35,7 +35,7 @@ function loadfolder(path, type)
                     out[shortname].image:getWidth(), out[shortname].image:getHeight())
             end
         elseif type == "font" then
-            out[shortname] = love.graphics.newFont(lpath, 20)
+            out[shortname] = love.graphics.newFont(lpath, 32)
         end
     end
 
