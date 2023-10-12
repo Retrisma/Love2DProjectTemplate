@@ -121,7 +121,6 @@ function Textbox:nextletter()
         self.pause = 0.2
     end
 
-    
     self.text = self.text .. char
     self.bank = self.bank:sub(2)
 end

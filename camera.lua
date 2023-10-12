@@ -26,19 +26,23 @@ function camfollowsprite(o)
     local deadzone = 0.0 -- the middle horizontal n of the screen is a camera deadzone
     local ox = o:translate().x / (window.width * (1 / window.scale))
 
-    if o.flipped then camera.xoff = -0.1 --lookahead
+    --lookahead
+    if o.flipped then camera.xoff = -0.1
     else camera.xoff = 0.1 end
     
+    --update camera x when o leaves the deadzone
     if ox > 0.5 + deadzone / 2 then
         camera.x = o.x - ((0.5 + (deadzone / 2)) * (window.width * (1 / window.scale)))
     elseif ox < 0.5 - deadzone / 2 then
         camera.x = o.x - ((0.5 - (deadzone / 2)) * (window.width * (1 / window.scale)))
     end
 
+    --only update camera y when o is grounded
     if o:collides({x = 0, y = 1}) then camera.y = o.y - ((window.height * 0.6) * (1 / window.scale)) end
 end
 
 function updatecamera(dt)
+    --snap camera to the camera bounds
     if camera.init then
         camera.x = math.mid(camera.x, camera.xmin, camera.xmax)
         camera.y = math.mid(camera.y, camera.ymin, camera.ymax)
@@ -48,9 +52,11 @@ function updatecamera(dt)
         caminit(map)
     end
 
+    --if camera is locked, snap it to the lock coordinate
     if camera.xlock then camera.x = camera.xlock end
     if camera.ylock then camera.y = camera.ylock end
 
+    --if the camera target is different from the current position, interpolate to it
     camera.rx = qerp(camera.rx, camera.x + (camera.xoff * (window.width * (1 / window.scale))), dt * camera.damping)
     camera.ry = qerp(camera.ry, camera.y, dt * camera.damping)
 

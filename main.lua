@@ -42,7 +42,7 @@ function love.load()
         if v.user == "player" then player = v break end
     end
 
-    Button:add(50, 100, "button", function() showdebug = not showdebug end)
+    --[[Button:add(50, 100, "button", function() showdebug = not showdebug end)
     Textbox:add(200, 100, "Everyone knows Mario is cool as fuck. Everyone knows Mario is cool as fuck.", {
         scroll = true,
         shadow = { 1, 0, 0 },
@@ -50,7 +50,7 @@ function love.load()
         hpad = 15,
         vpad = 10,
         font = fonts["ElixiR"]
-    })
+    })]]
 end
 
 function love.update(dt)
