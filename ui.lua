@@ -48,7 +48,8 @@ Textbox = {
     bank = "",
     speed = 0.01, --delay in seconds per letter
     cooldown = 0,
-    pixels = 0
+    pixels = 0,
+    pause = 0
 }
 local textbox_mt = class(Textbox)
 
@@ -84,6 +85,13 @@ function Textbox:add(x, y, text, opts)
 end
 
 function Textbox:update(dt)
+    if self.pause > 0 then
+        self.pause = self.pause - dt
+        return
+    else
+        self.pause = 0
+    end
+
     if self.bank ~= "" then
         self.cooldown = self.cooldown + dt
         if self.cooldown > self.speed then
@@ -104,16 +112,18 @@ function Textbox:nextletter()
         if self.pixels + wordsize > self.width - (self.hpad * 2) then
             self.text = self.text .. "\n"
             self.pixels = 0
-        else
-            self.text = self.text .. char
+            char = ""
         end
-        
-        self.bank = self.bank:sub(2)
         self.pixels = self.pixels + wordsize
-    else
-        self.text = self.text .. char
-        self.bank = self.bank:sub(2)
+    elseif char == "," then
+        self.pause = 0.05
+    elseif char == "." or char == "?" or char == "!" then
+        self.pause = 0.2
     end
+
+    
+    self.text = self.text .. char
+    self.bank = self.bank:sub(2)
 end
 
 function Textbox:draw()
