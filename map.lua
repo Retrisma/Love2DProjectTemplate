@@ -38,9 +38,9 @@ end
 --check to see if a tile is surrounded by other tiles on this layer
 function surrounded(layer, x, y, custommap)
     custommap = custommap or map
-    return gettile(layer, x - 1, y, custommap) ~= nil 
+    return gettile(layer, x - 1, y, custommap) ~= nil
         and gettile(layer, x + 1, y, custommap) ~= nil
-        and gettile(layer, x, y - 1, custommap) ~= nil 
+        and gettile(layer, x, y - 1, custommap) ~= nil
         and gettile(layer, x, y + 1, custommap) ~= nil
 end
 
@@ -113,7 +113,7 @@ end
 
 --look up in the spawntable for each object in the map
 function spawn(map)
-    for k,v in pairs(map.objects) do
+    for _,v in pairs(map.objects) do
         if spawntable[v.name] then
             spawntable[v.name](v)
         end

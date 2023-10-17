@@ -1,23 +1,23 @@
 Player = inherits(Actor)
 local player_mt = class(Player)
 
-function Player:new(x, y, skins, args)
-    args = args or {}
+function Player:new(x, y, skins, opts)
+    opts = opts or {}
 
     local o = Actor:init(x, y, skins)
     o.type = "dynamic"
 
     local s = setmetatable(o, player_mt)
 
-    if args.default then
+    if opts.default then
         s:adddefaultbox()
     end
 
     return s
 end
 
-function Player:add(x, y, skins, args)
-    table.insert(p, Player:new(x, y, skins, args))
+function Player:add(x, y, skins, opts)
+    table.insert(p, Player:new(x, y, skins, opts))
 end
 
 function Player:update(dt)
