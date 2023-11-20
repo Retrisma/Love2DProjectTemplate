@@ -41,16 +41,6 @@ function love.load()
     for _,v in pairs(p) do
         if v.user == "player" then player = v break end
     end
-
-    --[[Button:add(50, 100, "button", function() showdebug = not showdebug end)
-    Textbox:add(200, 100, "Everyone knows Mario is cool as fuck. Everyone knows Mario is cool as fuck.", {
-        scroll = true,
-        shadow = { 1, 0, 0 },
-        image = images["dialoguebox"],
-        hpad = 15,
-        vpad = 10,
-        font = fonts["ElixiR"]
-    })]]
 end
 
 function love.update(dt)
@@ -67,13 +57,14 @@ function love.update(dt)
 
     if gamestate.state == gamestate.main then
         if showdebug then
-            if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
+            --[[if love.keyboard.isDown("q") then window.scale = window.scale + rate * 5 end
             if love.keyboard.isDown("e") then window.scale = window.scale - rate * 5 end
 
             if love.keyboard.isDown("d") then camera.x = camera.x + rate * 500 end
             if love.keyboard.isDown("a") then camera.x = camera.x - rate * 500 end
             if love.keyboard.isDown("w") then camera.y = camera.y - rate * 500 end
-            if love.keyboard.isDown("s") then camera.y = camera.y + rate * 500 end
+            if love.keyboard.isDown("s") then camera.y = camera.y + rate * 500 end]]
+            camfollowsprite(player)
         else
             camfollowsprite(player)
         end

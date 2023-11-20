@@ -55,6 +55,16 @@ local textbox_mt = class(Textbox)
 
 function Textbox:init(x, y, text, opts)
     opts = opts or {}
+
+    --[[
+        opts fields:
+        shadow: text shadow color in { red, green, blue }
+        hpad/vpad: text position offset within textbox
+        font: specify font
+        image: specify image for textbox background
+        scroll: true if this textbox should have scrolling text
+    ]]
+
     local o = {
         x = x, y = y,
         text = "",
@@ -84,24 +94,8 @@ function Textbox:add(x, y, text, opts)
     table.insert(p, Textbox:new(x, y, text, opts))
 end
 
-function Textbox:update(dt)
-    if self.pause > 0 then
-        self.pause = self.pause - dt
-        return
-    else
-        self.pause = 0
-    end
-
-    if self.bank ~= "" then
-        self.cooldown = self.cooldown + dt
-        if self.cooldown > self.speed then
-            self:nextletter()
-            
-            self.cooldown = self.cooldown - self.speed
-        end
-    end
-end
-
+-- pull the next character from the text bank and display it in the textbox
+-- insert a new line if necessary
 function Textbox:nextletter()
     local char = self.bank:sub(1, 1)
 
@@ -123,6 +117,24 @@ function Textbox:nextletter()
 
     self.text = self.text .. char
     self.bank = self.bank:sub(2)
+end
+
+function Textbox:update(dt)
+    if self.pause > 0 then
+        self.pause = self.pause - dt
+        return
+    else
+        self.pause = 0
+    end
+
+    if self.bank ~= "" then
+        self.cooldown = self.cooldown + dt
+        if self.cooldown > self.speed then
+            self:nextletter()
+            
+            self.cooldown = self.cooldown - self.speed
+        end
+    end
 end
 
 function Textbox:draw()
