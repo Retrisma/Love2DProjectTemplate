@@ -62,4 +62,7 @@ function updatecamera(dt)
 
     camera.fx = math.floor(camera.rx)
     camera.fy = math.floor(camera.ry)
+
+    basic.shader:send("camera_pos", {camera.fx, camera.fy})
+    basic.shader:send("camera_scale", camera.scale)
 end

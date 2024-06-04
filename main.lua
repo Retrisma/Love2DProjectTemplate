@@ -11,11 +11,14 @@ require "actor"
 require "player"
 require "triggers"
 require "tools"
+require "shaders"
 require "drawing"
+fmod = require "fmodlove"
 sti = require "lib/sti"
 moonshine = require "lib/moonshine"
 
 window = { width = 800, height = 460, scale = 1.3 }
+canvas = love.graphics.newCanvas(window.width * window.scale, window.height * window.scale)
 
 speed = { target = 1 / 60, multiplier = 1 }
 
@@ -34,6 +37,13 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
 
     loadassets()
+
+    fmod.init(0, 32, 64, 1)
+
+    bi1 = fmod.loadBank("FMOD/Desktop/Master.bank", 0)
+    bi2 = fmod.loadBank("FMOD/Desktop/Master.strings.bank", 0)
+
+    fmod.setNumListeners(1)
     
     font = love.graphics.setFont(fonts["ElixiR"])
     map = loadmap("slime")
@@ -41,6 +51,8 @@ function love.load()
     for _,v in pairs(p) do
         if v.user == "player" then player = v break end
     end
+
+    basic.setup()
 end
 
 function love.update(dt)
@@ -70,11 +82,15 @@ function love.update(dt)
         end
     end
 
+    basic.update()
+
     mouse.op = mouse.p
 end
 
 function love.draw()
     --draw tiled map
+    love.graphics.setCanvas(canvas)
+    love.graphics.clear()
     map:draw(camera.fx * -1, camera.fy * -1, window.scale, window.scale)
 
     love.graphics.push()
@@ -94,6 +110,11 @@ function love.draw()
     love.graphics.circle("fill", mouse.x, mouse.y, 3)
 
     love.graphics.pop()
+    love.graphics.setCanvas()
+
+    love.graphics.setShader(basic.shader)
+    love.graphics.draw(canvas)
+    love.graphics.setShader()
 
     --if showdebug then
         love.graphics.print(printdebug(), 0, 0)

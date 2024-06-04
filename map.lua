@@ -14,7 +14,10 @@ spawntable = {
         table.insert(p, a)
     end,
 
-
+    light = function(v)
+        local data = getobjectdata(v)
+        table.insert(basic.lights, {data.x, data.y})
+    end,
     CamLockY = function(v)
         local data = getobjectdata(v)
         CameraLockTrigger:add(data.x, data.y, data.width, data.height, false, data.y)
